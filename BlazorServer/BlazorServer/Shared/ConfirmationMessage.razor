@@ -1,0 +1,21 @@
+﻿<div>
+    <div class="row mb-2">
+        <label for="message">@Message</label>
+    </div>
+    <hr />
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary m-2" @onclick="Ok">Ok</button>
+        <button class="btn btn-outline-primary m-2" @onclick="Cancel">Cancel</button>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? Message { get; set; }
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    protected override void OnInitialized() => BlazoredModal.SetTitle("Enter a Message");
+
+    private async Task Ok() => await BlazoredModal.CloseAsync(ModalResult.Ok());
+    private async Task Cancel() => await BlazoredModal.CancelAsync();
+}

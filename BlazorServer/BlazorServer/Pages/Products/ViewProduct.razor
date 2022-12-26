@@ -1,0 +1,31 @@
+﻿@page "/products/view/{ProductId:int}"
+@using BlazorServer.AppLogic.Models.Products.GetProduct;
+@inject IMediator _mediatr;
+
+<div class="row my-2">
+    <h3 class="text-primary">View Product</h3>
+
+    <div class="border p-2 mb-2">
+        <label>Name : </label> <span>@Product.ProductName</span><br />
+        <label>Price : </label> <span>@Product.ProductPrice.ToString("n2")</span>
+    </div>
+
+    <div>
+        <NavLink href="products" class="btn btn-secondary">Back</NavLink>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int ProductId { get; set; }
+
+    public ViewProductViewModel Product = new ViewProductViewModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await _mediatr.Send(new GetProductRequest(ProductId));
+        Product.ProductId = result.ProductId;
+        Product.ProductName = result.ProductName;
+        Product.ProductPrice = result.Price;
+    }
+}
