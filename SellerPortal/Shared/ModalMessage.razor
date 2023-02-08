@@ -1,0 +1,51 @@
+﻿@using Blazored.Modal.Services;
+<div>
+    <div class="text-center">
+        @if (ModalType == ModalTypes.Success)
+        {
+            <p>Success</p>
+        }
+        @if (ModalType == ModalTypes.Error)
+        {
+            <p>Error</p>
+        }
+        @if (ModalType == ModalTypes.Warning)
+        {
+            <p>Warning</p>
+        }
+        @if (ModalType == ModalTypes.Confirm)
+        {
+            <p>Confirm</p>
+        }
+    </div>
+
+    <p class="text-center">@Message</p>
+
+    <div class="text-center">
+
+        @if (ModalType == ModalTypes.Confirm)
+        {
+            <button class="btn btn-primary" @onclick="Confirm">Yes</button>
+            <button class="btn btn-primary" @onclick="Cancel">No</button>
+        }
+        else
+        {
+            <button class="btn btn-primary" @onclick="Close">Close</button>
+        }
+    </div>
+
+</div>
+
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    [Parameter]
+    public string? Message { get; set; }
+
+    [Parameter]
+    public ModalTypes ModalType { get; set; }
+
+    private async Task Confirm() => await BlazoredModal.CloseAsync(ModalResult.Ok());
+    private async Task Cancel() => await BlazoredModal.CancelAsync();
+    private async Task Close() => await BlazoredModal.CloseAsync();
+}

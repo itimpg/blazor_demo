@@ -1,0 +1,36 @@
+﻿@using System.Globalization;
+
+<div class="col-md-3">
+    <select class="form-control" @bind="Culture">
+        @foreach (var language in supportedLanguages)
+        {
+            <option value="@language">@language.DisplayName</option>
+        }
+    </select>
+</div>
+
+@inject IJSRuntime JSRuntime;
+@inject NavigationManager NavigationManager;
+
+@code {
+
+    protected CultureInfo[] supportedLanguages = new[]
+        {
+            new CultureInfo("en-US"),
+            new CultureInfo("th-TH"),
+    };
+
+    protected CultureInfo Culture
+    {
+        get => CultureInfo.CurrentCulture;
+        set
+        {
+            if (CultureInfo.CurrentCulture != value)
+            {
+                var js = (IJSInProcessRuntime)JSRuntime;
+                js.InvokeVoid(JavascriptConstants.FUNCTION_SET_APP_CULTURE, value.Name);
+                NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+            }
+        }
+    }
+}

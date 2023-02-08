@@ -1,0 +1,14 @@
+﻿[
+  {
+    "outputFile": "Pages/Authorizations/Login.razor.css",
+    "inputFile": "Pages/Authorizations/Login.razor.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/bootstrap.custom.css",
+    "inputFile": "wwwroot/scss/bootstrap.custom.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/controls.css",
+    "inputFile": "wwwroot/scss/controls.scss"
+  }
+]

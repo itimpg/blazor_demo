@@ -1,0 +1,44 @@
+﻿@page "/login"
+@using SellerPortal.Core.Interfaces.ViewModels.Authorizations;
+
+@inherits ViewBase<ILoginViewModel>
+
+<PageTitle>Login</PageTitle>
+
+<h3>Login</h3>
+
+<EditForm Model="ViewModel.Model" OnValidSubmit="SubmitLoginAsync">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="username">@Localizer["LoginPage.LabelUsername"]</label>
+        <InputText id="username" @bind-Value="ViewModel.Model.UserName" class="form-control" />
+        <ValidationMessage For="@(()=> ViewModel.Model.UserName)" />
+    </div>
+    <div class="mb-3">
+        <label for="password">@Localizer["LoginPage.LabelPassword"]</label>
+        <InputText id="password" type="password" @bind-Value="ViewModel.Model.Password" class="form-control" />
+        <ValidationMessage For="@(()=> ViewModel.Model.Password)" />
+    </div>
+    <button type="submit" class="btn btn-primary">@Localizer["LoginPage.ButtonLogin"]</button>
+</EditForm>
+
+@inject AuthenticationStateProvider authenticationStateProvider;
+@inject NavigationManager navigationManager;
+@inject ILocalStorageService localStorageService;
+@inject IModalHelper modalHelper;
+
+@code {
+    [Parameter]
+    public RouteData RedirectRoute { get; set; }
+
+    public async Task SubmitLoginAsync()
+    {
+        await modalHelper.ShowSuccessMessageAsync("Hey", "ModalSuccess");
+
+        await ViewModel.LoginAsync();
+
+        //await localStorageService.SetItemAsync(AppConstants.AUTH_TOKEN, result.UserData);
+        await authenticationStateProvider.GetAuthenticationStateAsync();
+        navigationManager.NavigateTo("");
+    }
+}
