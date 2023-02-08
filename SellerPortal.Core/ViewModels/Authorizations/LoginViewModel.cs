@@ -15,6 +15,12 @@ namespace SellerPortal.Core.ViewModels.Authorizations
             _authService = authService;
         }
 
+        public override void OnInit()
+        {
+            Model.UserName = "USERNAME";
+            Model.Password = "P@ssw0rd";
+        }
+
         public Task LoginAsync()
         {
             // TODO: call authService here
